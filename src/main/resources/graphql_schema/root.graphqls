@@ -1,0 +1,44 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+scalar DateTime
+scalar Date
+scalar UUID
+
+type Mutation {}
+
+type Query {
+    ping: String!
+
+    """
+    Searches for videos matching the provided search text
+    """
+    searchVideos(searchText: String!, offset: Int! = 0, limit: Int! = 0): [SearchResult!]!
+
+    """
+    Searches for a random video matching the search text
+    """
+    getRandomVideoMatchingSearch(searchText: String!): SearchResult
+}
+
+input PageOptions {
+    offset: Int!
+    limit: Int!
+}
+
+type SearchResult {
+    id: ID!
+
+    videoId: String!
+    videoName: String!
+    episodeNumber: Int!
+
+    startTime: Int!
+
+
+    # The phrase that matched the query
+    # This text has <b> tags to denote the matched parts of the phrase
+    matchedText: String!
+}
