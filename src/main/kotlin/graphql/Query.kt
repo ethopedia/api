@@ -1,9 +1,6 @@
 package graphql
 
 import SearchLogger
-import com.github.benmanes.caffeine.cache.Cache
-import com.github.benmanes.caffeine.cache.Caffeine
-import com.github.benmanes.caffeine.cache.LoadingCache
 import com.google.inject.Inject
 import dao.SearchResult
 import dao.VideoSearchService
@@ -12,7 +9,6 @@ import org.jdbi.v3.core.Jdbi
 import schemabuilder.annotations.graphql.GraphQLDataFetcher
 import schemabuilder.annotations.graphql.GraphQLTypeConfiguration
 import util.withService
-import java.util.concurrent.TimeUnit
 
 
 @GraphQLTypeConfiguration("Query")
@@ -28,9 +24,7 @@ class Query @Inject constructor(
     fun searchVideos(env: DataFetchingEnvironment): List<SearchResult> {
         val query = env.getArgument<String>("searchText")
         val offset = env.getArgument<Int>("offset") ?: 0
-        val limit = (env.getArgument<Int>("limit") ?: 0).let {
-            if (it > 50) 50 else it
-        }
+        val limit = (env.getArgument<Int>("limit") ?: 0).coerceAtMost(50)
 
         return jdbi.withService<VideoSearchService>().searchVideos(query, offset, limit).also {
             if (offset == 0) {
