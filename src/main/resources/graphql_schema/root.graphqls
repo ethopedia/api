@@ -15,7 +15,7 @@ type Query {
     """
     Searches for videos matching the provided search text
     """
-    searchVideos(searchText: String!, offset: Int! = 0, limit: Int! = 0): [SearchResult!]!
+    searchVideos(searchText: String!, offset: Int! = 0, limit: Int! = 25): [SearchResult!]!
 
     """
     Searches for a random video matching the search text

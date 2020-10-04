@@ -1,16 +1,19 @@
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import dao.DummyVideoSearchService
+import dao.VideoSearchService
 import dev.misfitlabs.kotlinguice4.KotlinModule
 import org.jdbi.v3.core.Jdbi
 import org.jdbi.v3.core.kotlin.KotlinPlugin
 import org.jdbi.v3.postgres.PostgresPlugin
 import org.jdbi.v3.sqlobject.SqlObjectPlugin
 import org.jdbi.v3.sqlobject.kotlin.KotlinSqlObjectPlugin
+import util.withService
 import java.net.URI
 import java.net.URISyntaxException
 import kotlin.system.exitProcess
 
-object PostgresClient {
+class PostgresClient {
     private val config = HikariConfig()
 
     private var connectionPool: HikariDataSource? = null
@@ -67,8 +70,19 @@ object PostgresClient {
     }
 }
 
-class PostgresModule: KotlinModule() {
+class PostgresModule(
+    private val programArgs: Array<String>
+) : KotlinModule() {
     override fun configure() {
-        bind<Jdbi>().toInstance(PostgresClient.jdbi)
+        if (programArgs.contains("--no-database")) {
+            bind<SearchLogger>().to<TerminalOutputSearchLogger>()
+            bind<VideoSearchService>().to<DummyVideoSearchService>()
+        } else {
+            val jdbi = PostgresClient().jdbi
+
+            bind<Jdbi>().toInstance(jdbi)
+            bind<SearchLogger>().to<DatabaseSearchLogger>()
+            bind<VideoSearchService>().toInstance(jdbi.withService())
+        }
     }
 }

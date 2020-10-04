@@ -4,19 +4,29 @@ import kotlinx.coroutines.async
 import org.jdbi.v3.core.Jdbi
 import java.sql.SQLException
 
-class SearchLogger @Inject constructor(private val jdbi: Jdbi) {
+interface SearchLogger {
+    fun log(searchText: String)
+}
 
-    fun submitSearch(searchText: String) {
-        GlobalScope.async {
-            logSearch(searchText)
-        }
+class TerminalOutputSearchLogger : SearchLogger {
+    override fun log(searchText: String) {
+        println("Logging search: $searchText")
     }
+}
 
-    private fun logSearch(searchText: String) {
+class DatabaseSearchLogger @Inject constructor(private val jdbi: Jdbi) : SearchLogger {
+
+    private fun submitSearch(searchText: String) {
         jdbi.useHandle<SQLException> { handle ->
             handle.createUpdate("insert into searches (query) values (?)")
                 .bind(0, searchText)
                 .execute()
+        }
+    }
+
+    override fun log(searchText: String) {
+        GlobalScope.async {
+            submitSearch(searchText)
         }
     }
 }

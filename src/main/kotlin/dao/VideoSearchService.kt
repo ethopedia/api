@@ -21,7 +21,7 @@ interface VideoSearchService {
     @SqlQuery
     fun searchVideos(
         @Bind("searchText") searchText: String,
-        @Bind("offset") offset: Int = 0,
+        @Bind("offset") offset: Int = 25,
         @Bind("limit") limit: Int = 0
     ): List<SearchResult>
 

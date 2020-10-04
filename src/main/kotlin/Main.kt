@@ -12,9 +12,9 @@ import youtube.YoutubeWebhookHandler
 import youtube.YoutubeWebhookModule
 import kotlin.reflect.KClass
 
-fun main() {
+fun main(args: Array<String>) {
     val injector = Guice.createInjector(
-        PostgresModule(),
+        PostgresModule(args),
         YoutubeWebhookModule()
     )
 
