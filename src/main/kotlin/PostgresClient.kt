@@ -1,5 +1,6 @@
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import dev.misfitlabs.kotlinguice4.KotlinModule
 import org.jdbi.v3.core.Jdbi
 import org.jdbi.v3.core.kotlin.KotlinPlugin
 import org.jdbi.v3.postgres.PostgresPlugin
@@ -63,5 +64,11 @@ object PostgresClient {
         jdbi.installPlugin(SqlObjectPlugin())
         jdbi.installPlugin(KotlinPlugin())
         jdbi.installPlugin(KotlinSqlObjectPlugin())
+    }
+}
+
+class PostgresModule: KotlinModule() {
+    override fun configure() {
+        bind<Jdbi>().toInstance(PostgresClient.jdbi)
     }
 }

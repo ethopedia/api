@@ -1,24 +1,22 @@
-import com.google.inject.AbstractModule
 import com.google.inject.Guice
 import core.GraphQLScalars
+import dev.misfitlabs.kotlinguice4.getInstance
 import graphql.execution.instrumentation.ChainedInstrumentation
 import graphql.execution.instrumentation.dataloader.DataLoaderDispatcherInstrumentation
 import graphql.execution.instrumentation.dataloader.DataLoaderDispatcherInstrumentationOptions
-import graphql.execution.instrumentation.tracing.TracingInstrumentation
 import io.javalin.Javalin
 import io.javalin.http.HandlerType
-import io.javalin.plugin.openapi.annotations.HttpMethod
-import org.jdbi.v3.core.Jdbi
 import schemabuilder.processor.GraphQLBuilder
 import schemabuilder.processor.wiring.InstanceFetcher
+import youtube.YoutubeWebhookHandler
+import youtube.YoutubeWebhookModule
 import kotlin.reflect.KClass
 
 fun main() {
-    val injector = Guice.createInjector(object: AbstractModule() {
-        override fun configure() {
-            bind(Jdbi::class.java).toInstance(PostgresClient.jdbi)
-        }
-    })
+    val injector = Guice.createInjector(
+        PostgresModule(),
+        YoutubeWebhookModule()
+    )
 
     val fetcher = object : InstanceFetcher {
         override fun <T : Any> getInstance(clazz: KClass<T>): T {
@@ -67,6 +65,7 @@ fun main() {
     }
         .addHandler(HandlerType.OPTIONS, "*") {}
         .addHandler(HandlerType.GET, "/ping") { it.result("pong") }
+        .addHandler(HandlerType.POST, "/youtube", injector.getInstance<YoutubeWebhookHandler>())
         .start(props.port)
 
     println("API running on port $port")

@@ -13,7 +13,7 @@ select
     (v.video_url || '?start=' || start_time) as video_url,
     ts_headline('english', transcription, constants.query) as matched_text,
     start_time,
-    start_time - lag(start_time) over (partition by episode_number order by start_time) diff
+    start_time - lag(start_time) over (partition by tld.episode_number order by start_time) diff
 
 
 from

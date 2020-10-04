@@ -60,8 +60,10 @@ dependencies {
         exclude module: 'data-utils'
         exclude module: 'graphql-java-annotations'
     }
-    // implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')
-    // implementation 'com.amazonaws:aws-java-sdk-ses'
+
+    // These are necessary for building the JAR because I'm an idiot
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')
+    implementation 'com.amazonaws:aws-java-sdk-ses'
 
 
     // https://mvnrepository.com/artifact/com.google.inject/guice
@@ -69,6 +71,9 @@ dependencies {
 
     // Cache implementation - https://github.com/ben-manes/caffeine
     implementation 'com.github.ben-manes.caffeine:caffeine:2.8.5'
+
+    // https://github.com/misfitlabsdev/kotlin-guice
+    compile 'dev.misfitlabs.kotlinguice4:kotlin-guice:1.4.1'
 }
 
 compileKotlin {
