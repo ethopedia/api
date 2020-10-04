@@ -48,7 +48,8 @@ dependencies {
 
     // Jackson Core
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-properties:2.8.8'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-properties:2.8.8'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.3'
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.8.11.1"
 
     compile "org.slf4j:slf4j-simple:1.7.30"
