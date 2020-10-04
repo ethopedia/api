@@ -56,7 +56,7 @@ object PostgresClient {
         connectionPool = HikariDataSource(config)
 
         // Close the pool on shutdown
-        Runtime.getRuntime().addShutdownHook(Thread(Runnable { connectionPool!!.close() }))
+        Runtime.getRuntime().addShutdownHook(Thread { connectionPool!!.close() })
         jdbi = Jdbi.create(connectionPool)
 
         // Install plugins

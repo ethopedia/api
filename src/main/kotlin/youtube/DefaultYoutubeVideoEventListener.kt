@@ -1,5 +1,8 @@
 package youtube
 
+/**
+ * Handles persisting any video updates to the database
+ */
 class DefaultYoutubeVideoEventListener : YoutubeVideoEventListener {
     override fun onVideoUpload(videoData: YoutubeVideoEventListener.UploadedYoutubeVideo) {
         TODO("Not yet implemented")
