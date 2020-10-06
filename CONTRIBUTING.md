@@ -27,6 +27,7 @@ If you don't see your idea listed, and you think it fits into the goals of this 
 * **If your contribution is minor,** such as a typo fix, open a pull request.
 * **If your contribution is major,** such as an adding a new endpoint or modifying existing behavior, start by opening an issue first. That way, other people can weigh in on the discussion before you do any work.
 
+Please create a new branch for each feature you are adding.
 
 ## Style guide
 
