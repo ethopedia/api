@@ -9,7 +9,7 @@ Ethopedia has two main repositories:
 0. [The site](https://github.com/ethopedia/site)
 0. [The graphql api](https://github.com/ethopedia/api) (The one you're in right now)
 
-If you are interested in contributing to the site, you can follow the [contributing guidelines](https://github.com/ethopedia/site/CONTRIBUTING.md) in that repository.
+If you are interested in contributing to the site, you can follow the [contributing guidelines](https://github.com/ethopedia/site/blob/master/CONTRIBUTING.md) in that repository.
 
 If you are interested in contributing to the api, read on.
 
